@@ -5,7 +5,8 @@ import {
 } from '@nestjs/common';
 import { v4 } from 'uuid';
 import { User } from './interfaces/user.interface';
-import { CreateUserDto, UpdatePasswordDto } from './dto/index';
+import { CreateUserDto } from './dto/create-user.dto';
+import { UpdatePasswordDto } from './dto/update-password.dto';
 import { ERRORS } from '../../utils/errors';
 import { db } from 'src/db';
 
