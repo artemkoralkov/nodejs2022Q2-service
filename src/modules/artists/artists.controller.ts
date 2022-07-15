@@ -7,8 +7,6 @@ import {
   Put,
   Delete,
   HttpCode,
-  ClassSerializerInterceptor,
-  UseInterceptors,
   ParseUUIDPipe,
 } from '@nestjs/common';
 import { ArtistService } from './artists.service';
@@ -27,7 +25,6 @@ export class ArtistController {
     return this.artistService.getById(id);
   }
   @Post()
-  @UseInterceptors(ClassSerializerInterceptor)
   createArtist(@Body() createArtistDto: CreateArtistDto) {
     return this.artistService.createArtist(createArtistDto);
   }

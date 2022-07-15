@@ -7,8 +7,6 @@ import {
   Put,
   Delete,
   HttpCode,
-  ClassSerializerInterceptor,
-  UseInterceptors,
   ParseUUIDPipe,
 } from '@nestjs/common';
 import { AlbumService } from './albums.service';
@@ -27,7 +25,6 @@ export class AlbumController {
     return this.albumService.getById(id);
   }
   @Post()
-  @UseInterceptors(ClassSerializerInterceptor)
   createAlbum(@Body() createAlbumDto: CreateAlbumDto) {
     return this.albumService.createAlbum(createAlbumDto);
   }
