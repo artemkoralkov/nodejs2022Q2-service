@@ -11,6 +11,7 @@ import {
 } from '@nestjs/common';
 import { ArtistService } from './artists.service';
 import { CreateArtistDto } from './dto/create-artists.dto';
+import { UpdateArtistDto } from './dto/update-artist.dto';
 
 @Controller('artist')
 export class ArtistController {
@@ -21,7 +22,7 @@ export class ArtistController {
     return this.artistService.getAll();
   }
   @Get(':id')
-  getArtistById(@Param('id', ParseUUIDPipe) id: string) {
+  getArtistById(@Param('id', new ParseUUIDPipe({ version: '4' })) id: string) {
     return this.artistService.getById(id);
   }
   @Post()
@@ -30,14 +31,15 @@ export class ArtistController {
   }
   @Put(':id')
   updateArtist(
-    @Param('id', ParseUUIDPipe) id: string,
-    @Body() updateArtist: CreateArtistDto,
+    @Param('id', new ParseUUIDPipe({ version: '4' })) id: string,
+    @Body() updateArtist: UpdateArtistDto,
   ) {
+    console.log(updateArtist);
     return this.artistService.updateArtist(id, updateArtist);
   }
   @Delete(':id')
   @HttpCode(204)
-  deleteArtist(@Param('id', ParseUUIDPipe) id: string) {
+  deleteArtist(@Param('id', new ParseUUIDPipe({ version: '4' })) id: string) {
     this.artistService.deleteArtist(id);
   }
 }

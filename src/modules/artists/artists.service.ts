@@ -3,6 +3,7 @@ import { db } from 'src/db';
 import { ERRORS } from 'src/utils/errors';
 import { v4 } from 'uuid';
 import { CreateArtistDto } from './dto/create-artists.dto';
+import { UpdateArtistDto } from './dto/update-artist.dto';
 import { Artist } from './interfaces/artist.interface';
 
 @Injectable()
@@ -18,14 +19,19 @@ export class ArtistService {
     return newArtist;
   }
 
-  updateArtist(id: string, updateArtist: CreateArtistDto) {
+  updateArtist(id: string, updateArtist: UpdateArtistDto) {
     const updatingArtist = this.db.getArtist(id);
 
     if (!updatingArtist) {
       throw new NotFoundException(ERRORS.ARTIST_NOT_FOUND);
     }
+
     updatingArtist.name = updateArtist.name || updatingArtist.name;
-    updatingArtist.grammy = updateArtist.grammy && updatingArtist.grammy;
+
+    if (typeof updateArtist.grammy !== 'undefined') {
+      updatingArtist.grammy = updateArtist.grammy;
+    }
+
     return updatingArtist;
   }
 
