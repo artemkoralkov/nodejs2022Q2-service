@@ -3,6 +3,7 @@ import { db } from 'src/db';
 import { ERRORS } from 'src/utils/errors';
 import { v4 } from 'uuid';
 import { CreateAlbumDto } from './dto/create-album.dto';
+import { UpdateAlbumDto } from './dto/update-album.dto';
 import { Album } from './interfaces/albums.interface';
 
 @Injectable()
@@ -18,7 +19,7 @@ export class AlbumService {
     return newAlbum;
   }
 
-  updateAlbum(id: string, updateAlbum: CreateAlbumDto) {
+  updateAlbum(id: string, updateAlbum: UpdateAlbumDto) {
     const updatingAlbum = this.db.getAlbum(id);
 
     if (!updatingAlbum) {

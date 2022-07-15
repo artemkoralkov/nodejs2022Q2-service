@@ -1,9 +1,11 @@
 import { IsNumber, IsString, IsOptional } from 'class-validator';
 
-export class CreateAlbumDto {
+export class UpdateAlbumDto {
+  @IsOptional()
   @IsString()
   name: string;
 
+  @IsOptional()
   @IsNumber()
   year: number;
 
