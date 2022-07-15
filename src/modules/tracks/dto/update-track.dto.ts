@@ -1,6 +1,7 @@
 import { IsNumber, IsString, IsOptional } from 'class-validator';
 
-export class CreateTrackDto {
+export class UpdateTrackDto {
+  @IsOptional()
   @IsString()
   name: string;
 
@@ -12,6 +13,7 @@ export class CreateTrackDto {
   @IsString()
   albumId: string | null;
 
+  @IsOptional()
   @IsNumber()
   duration: number;
 }

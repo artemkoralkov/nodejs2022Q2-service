@@ -3,6 +3,7 @@ import { db } from 'src/db';
 import { ERRORS } from 'src/utils/errors';
 import { v4 } from 'uuid';
 import { CreateTrackDto } from './dto/create-track.dto';
+import { UpdateTrackDto } from './dto/update-track.dto';
 import { Track } from './interfaces/track.interface';
 
 @Injectable()
@@ -18,7 +19,7 @@ export class TrackService {
     return newTrack;
   }
 
-  updateTrack(id: string, updateTrack: CreateTrackDto) {
+  updateTrack(id: string, updateTrack: UpdateTrackDto) {
     const updatingTrack = this.db.getTrack(id);
 
     if (!updatingTrack) {

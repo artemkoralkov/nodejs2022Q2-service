@@ -11,6 +11,7 @@ import {
 } from '@nestjs/common';
 import { TrackService } from './tracks.service';
 import { CreateTrackDto } from './dto/create-track.dto';
+import { UpdateTrackDto } from './dto/update-track.dto';
 
 @Controller('track')
 export class TrackController {
@@ -21,7 +22,7 @@ export class TrackController {
     return this.trackService.getAll();
   }
   @Get(':id')
-  getTrackById(@Param('id', ParseUUIDPipe) id: string) {
+  getTrackById(@Param('id', new ParseUUIDPipe({ version: '4' })) id: string) {
     return this.trackService.getById(id);
   }
   @Post()
@@ -30,14 +31,14 @@ export class TrackController {
   }
   @Put(':id')
   updateTrack(
-    @Param('id', ParseUUIDPipe) id: string,
-    @Body() updateTrack: CreateTrackDto,
+    @Param('id', new ParseUUIDPipe({ version: '4' })) id: string,
+    @Body() updateTrack: UpdateTrackDto,
   ) {
     return this.trackService.updateTrack(id, updateTrack);
   }
   @Delete(':id')
   @HttpCode(204)
-  deleteTrack(@Param('id', ParseUUIDPipe) id: string) {
+  deleteTrack(@Param('id', new ParseUUIDPipe({ version: '4' })) id: string) {
     this.trackService.deleteTrack(id);
   }
 }
