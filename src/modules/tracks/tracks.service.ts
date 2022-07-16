@@ -25,11 +25,8 @@ export class TrackService {
     if (!updatingTrack) {
       throw new NotFoundException(ERRORS.TRACK_NOT_FOUND);
     }
-    updatingTrack.name = updateTrack.name || updatingTrack.name;
-    updatingTrack.duration = updateTrack.duration || updatingTrack.duration;
-    updatingTrack.albumId = updateTrack.albumId || updatingTrack.albumId;
-    updatingTrack.artistId = updateTrack.artistId || updatingTrack.artistId;
-    return updatingTrack;
+
+    return { ...updatingTrack, ...updateTrack };
   }
 
   deleteTrack(id: string) {

@@ -25,10 +25,8 @@ export class AlbumService {
     if (!updatingAlbum) {
       throw new NotFoundException(ERRORS.ALBUM_NOT_FOUND);
     }
-    updatingAlbum.name = updateAlbum.name || updatingAlbum.name;
-    updatingAlbum.year = updateAlbum.year || updatingAlbum.year;
-    updatingAlbum.artistId = updateAlbum.artistId || updatingAlbum.artistId;
-    return updatingAlbum;
+
+    return { ...updatingAlbum, ...updateAlbum };
   }
 
   deleteAlbum(id: string) {

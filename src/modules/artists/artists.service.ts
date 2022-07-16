@@ -26,13 +26,7 @@ export class ArtistService {
       throw new NotFoundException(ERRORS.ARTIST_NOT_FOUND);
     }
 
-    updatingArtist.name = updateArtist.name || updatingArtist.name;
-
-    if (typeof updateArtist.grammy !== 'undefined') {
-      updatingArtist.grammy = updateArtist.grammy;
-    }
-
-    return updatingArtist;
+    return { ...updatingArtist, ...updateArtist };
   }
 
   deleteArtist(id: string) {
