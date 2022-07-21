@@ -14,7 +14,7 @@ services:
       - /app/node_modules
     restart: always
     networks:
-      - my_network.
+      - my_network
   postgres:
     build: ./db
     restart: always
@@ -24,9 +24,15 @@ services:
       - POSTGRES_DB=${POSTGRES_DB}
     ports:
       - "${POSTGRES_PORT}:${POSTGRES_PORT}"
+    volumes:
+      - datapg:/var/lib/postgresql/data
     networks:
       - my_network
       
+
+volumes:
+  datapg:
+
 networks:
   my_network:
     driver: bridge
