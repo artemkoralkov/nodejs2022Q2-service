@@ -1,51 +1,56 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { db } from 'src/db';
+import { InjectRepository } from '@nestjs/typeorm';
 import { ERRORS } from 'src/utils/errors';
-import { v4 } from 'uuid';
+import { Repository } from 'typeorm';
 import { CreateTrackDto } from './dto/create-track.dto';
 import { UpdateTrackDto } from './dto/update-track.dto';
-import { Track } from './interfaces/track.interface';
+import { TrackEntity } from './entities/track.entity';
 
 @Injectable()
 export class TrackService {
-  private db = db;
-
-  createTrack(track: CreateTrackDto) {
-    const newTrack: Track = {
-      id: v4(),
-      ...track,
-    };
-    this.db.addTrack(newTrack);
-    return newTrack;
+  constructor(
+    @InjectRepository(TrackEntity)
+    private tracksRepository: Repository<TrackEntity>,
+  ) {}
+  async createTrack(newTrack: CreateTrackDto) {
+    const track = this.tracksRepository.create(newTrack);
+    return await this.tracksRepository.save(track);
   }
 
-  updateTrack(id: string, updateTrack: UpdateTrackDto) {
-    const updatingTrack = this.db.getTrack(id);
+  async updateTrack(id: string, updateTrack: UpdateTrackDto) {
+    const updatingTrack = await this.getById(id);
 
     if (!updatingTrack) {
       throw new NotFoundException(ERRORS.TRACK_NOT_FOUND);
     }
-
-    return { ...updatingTrack, ...updateTrack };
+    await this.tracksRepository.update(id, updateTrack);
+    return await this.getById(id);
   }
 
-  deleteTrack(id: string) {
-    const track = this.db.getTrack(id);
-    if (!track) {
+  async deleteTrack(id: string) {
+    const track = await this.tracksRepository.delete(id);
+    if (track.affected === 0) {
       throw new NotFoundException(ERRORS.TRACK_NOT_FOUND);
     }
-    this.db.deleteTrack(id);
   }
 
-  getById(id: string) {
-    const track = this.db.getTrack(id);
+  async getById(id: string) {
+    const track = await this.tracksRepository.findOne({ where: { id } });
     if (!track) {
       throw new NotFoundException(ERRORS.TRACK_NOT_FOUND);
     }
     return track;
   }
 
-  getAll() {
-    return this.db.getTracks();
+  async getAll() {
+    return await this.tracksRepository.find();
+  }
+
+  async isTrackExists(id: string) {
+    const track = await this.tracksRepository.findOne({ where: { id } });
+    if (track) {
+      return true;
+    }
+    return false;
   }
 }
