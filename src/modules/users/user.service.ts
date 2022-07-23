@@ -18,21 +18,12 @@ export class UserService {
   ) {}
 
   async createUser(userDto: CreateUserDto) {
-    console.log(Date.now());
-    const newUser = {
-      version: 1,
-      createdAt: Date.now(),
-      updatedAt: Date.now(),
-      login: userDto.login,
-      password: userDto.password,
-    };
-    console.log('dsadasdasdasd');
-    const user = this.usersRepository.create(newUser);
-    return (await this.usersRepository.save(user)).toResponse();
+    const user = this.usersRepository.create(userDto);
+    return await this.usersRepository.save(user);
   }
 
   async updatePassword(id: string, updatePassword: UpdatePasswordDto) {
-    const updatingUser = await this.usersRepository.findOne({ where: { id } });
+    const updatingUser = await this.getById(id);
 
     if (!updatingUser) {
       throw new NotFoundException(ERRORS.USER_NOT_FOUND);
@@ -40,17 +31,17 @@ export class UserService {
     if (updatingUser.password !== updatePassword.oldPassword) {
       throw new ForbiddenException(ERRORS.WRONG_OLD_PASSWORD);
     } else {
-      updatingUser.password = updatePassword.newPassword;
-      updatingUser.updatedAt = Date.now();
-      updatingUser.version += 1;
-      await this.usersRepository.update(id, updatingUser);
+      const userUpdate: Partial<UserEntity> = {
+        password: updatePassword.newPassword,
+      };
+      await this.usersRepository.update(id, userUpdate);
     }
-    return updatingUser.toResponse();
+    return this.getById(id);
   }
 
   async deleteUser(id: string) {
     const user = await this.usersRepository.delete(id);
-    if (user.affected === 0) {
+    if (!user.affected) {
       throw new NotFoundException(ERRORS.USER_NOT_FOUND);
     }
   }
@@ -60,10 +51,10 @@ export class UserService {
     if (!user) {
       throw new NotFoundException(ERRORS.USER_NOT_FOUND);
     }
-    return user.toResponse();
+    return user;
   }
 
   async getAll() {
-    return (await this.usersRepository.find()).map((user) => user.toResponse());
+    return await this.usersRepository.find();
   }
 }
