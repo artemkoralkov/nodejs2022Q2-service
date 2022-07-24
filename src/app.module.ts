@@ -10,12 +10,12 @@ import DataSourceOptions from './ormconfig';
 
 @Module({
   imports: [
-    // UserModule,
+    UserModule,
     ArtistModule,
     TrackModule,
     AlbumModule,
     FavoritesModule,
-    // TypeOrmModule.forRoot(DataSourceOptions),
+    TypeOrmModule.forRoot(DataSourceOptions),
   ],
 })
 export class AppModule {}
