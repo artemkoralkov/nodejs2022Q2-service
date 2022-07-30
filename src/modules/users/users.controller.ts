@@ -10,15 +10,18 @@ import {
   ClassSerializerInterceptor,
   UseInterceptors,
   ParseUUIDPipe,
+  UseGuards,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdatePasswordDto } from './dto/update-password.dto';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
+  // @UseGuards(JwtAuthGuard)
   @Get()
   @UseInterceptors(ClassSerializerInterceptor)
   async getUsers() {

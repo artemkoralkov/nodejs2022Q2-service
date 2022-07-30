@@ -9,6 +9,8 @@ import { ERRORS } from '../../utils/errors';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserEntity } from './entities/user.entity';
 import { Repository } from 'typeorm';
+import { compare, hash } from 'bcrypt';
+import 'dotenv/config';
 
 @Injectable()
 export class UserService {
@@ -18,6 +20,7 @@ export class UserService {
   ) {}
 
   async createUser(userDto: CreateUserDto) {
+    userDto.password = await hash(userDto.password, +process.env.CRYPT_SALT);
     const user = this.usersRepository.create(userDto);
     return await this.usersRepository.save(user);
   }
@@ -28,11 +31,14 @@ export class UserService {
     if (!updatingUser) {
       throw new NotFoundException(ERRORS.USER_NOT_FOUND);
     }
-    if (updatingUser.password !== updatePassword.oldPassword) {
+    if (!(await compare(updatePassword.oldPassword, updatingUser.password))) {
       throw new ForbiddenException(ERRORS.WRONG_OLD_PASSWORD);
     } else {
       const userUpdate: Partial<UserEntity> = {
-        password: updatePassword.newPassword,
+        password: await hash(
+          updatePassword.newPassword,
+          +process.env.CRYPT_SALT,
+        ),
       };
       await this.usersRepository.update(id, userUpdate);
     }
@@ -44,6 +50,10 @@ export class UserService {
     if (!user.affected) {
       throw new NotFoundException(ERRORS.USER_NOT_FOUND);
     }
+  }
+
+  async getByLogin(login: string) {
+    return await this.usersRepository.findOne({ where: { login } });
   }
 
   async getById(id: string) {
