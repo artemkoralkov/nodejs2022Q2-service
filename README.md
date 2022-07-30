@@ -33,6 +33,12 @@ To run docker container type:
 
 To scan images for security vulnerabilities type:
 `npm run docker:scan`
+
+## Migrations
+After the first app launch migrations should be run
+To run migrations type:
+`npm run migration:run`
+
 ## Testing
 
 After application running open new terminal and enter:
