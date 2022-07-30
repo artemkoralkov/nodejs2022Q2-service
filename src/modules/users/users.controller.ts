@@ -21,34 +21,38 @@ export class UserController {
 
   @Get()
   @UseInterceptors(ClassSerializerInterceptor)
-  getUsers() {
-    return this.userService.getAll();
+  async getUsers() {
+    return await this.userService.getAll();
   }
 
   @Get(':id')
   @UseInterceptors(ClassSerializerInterceptor)
-  getUserById(@Param('id', new ParseUUIDPipe({ version: '4' })) id: string) {
-    return this.userService.getById(id);
+  async getUserById(
+    @Param('id', new ParseUUIDPipe({ version: '4' })) id: string,
+  ) {
+    return await this.userService.getById(id);
   }
 
   @Post()
   @UseInterceptors(ClassSerializerInterceptor)
-  createUser(@Body() createUserDto: CreateUserDto) {
-    return this.userService.createUser(createUserDto);
+  async createUser(@Body() createUserDto: CreateUserDto) {
+    return await this.userService.createUser(createUserDto);
   }
 
   @Put(':id')
   @UseInterceptors(ClassSerializerInterceptor)
-  updatePassword(
+  async updatePassword(
     @Param('id', new ParseUUIDPipe({ version: '4' })) id: string,
     @Body() updatePasswordDto: UpdatePasswordDto,
   ) {
-    return this.userService.updatePassword(id, updatePasswordDto);
+    return await this.userService.updatePassword(id, updatePasswordDto);
   }
 
   @Delete(':id')
   @HttpCode(204)
-  deleteUser(@Param('id', new ParseUUIDPipe({ version: '4' })) id: string) {
-    this.userService.deleteUser(id);
+  async deleteUser(
+    @Param('id', new ParseUUIDPipe({ version: '4' })) id: string,
+  ) {
+    await this.userService.deleteUser(id);
   }
 }

@@ -27,6 +27,18 @@ After starting the app on port (4000 as default) you can open
 in your browser OpenAPI documentation by typing http://localhost:4000/doc/.
 For more information about OpenAPI/Swagger please visit https://swagger.io/.
 
+## Docker
+To run docker container type:
+`docker-compose up`
+
+To scan images for security vulnerabilities type:
+`npm run docker:scan`
+
+## Migrations
+After the first app launch migrations should be run
+To run migrations type:
+`npm run migration:run`
+
 ## Testing
 
 After application running open new terminal and enter:
