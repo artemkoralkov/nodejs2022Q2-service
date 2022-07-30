@@ -2,7 +2,7 @@ import { DataSource } from 'typeorm';
 import 'dotenv/config';
 export const dataSource = new DataSource({
   type: 'postgres',
-  host: '0.0.0.0',
+  host: 'localhost',
   port: +process.env.POSTGRES_PORT || 5432,
   username: process.env.POSTGRES_USER,
   password: process.env.POSTGRES_PASSWORD,
@@ -10,5 +10,5 @@ export const dataSource = new DataSource({
   synchronize: false,
   migrationsTableName: 'migrations',
   entities: ['dist/**/entities/*.entity.js'],
-  migrations: ['dist/src/migrations/*.js'],
+  migrations: ['dist/migrations/*.js'],
 });
