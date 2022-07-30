@@ -10,5 +10,5 @@ export const dataSource = new DataSource({
   synchronize: false,
   migrationsTableName: 'migrations',
   entities: ['dist/**/entities/*.entity.js'],
-  migrations: ['dist/src/migrations/*.js'],
+  migrations: ['dist/migrations/*.js'],
 });
