@@ -154,7 +154,7 @@ paths:
                   access_token:
                     type: string
                   refresh_token:
-                  type: string
+                    type: string
                 description: JWT Token
         403:
           description: Incorrect login or password
