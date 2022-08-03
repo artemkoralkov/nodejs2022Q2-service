@@ -6,7 +6,6 @@ export class CustomValidationPipe extends ValidationPipe {
       'REWRITE_VALIDATION_OPTIONS',
       metadata.metatype,
     );
-    console.log(options);
     this.validatorOptions = Object.assign(this.validatorOptions, options);
 
     if (options?.errorHttpStatusCode) {
