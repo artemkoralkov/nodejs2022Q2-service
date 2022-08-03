@@ -4,6 +4,7 @@ import { compare } from 'bcrypt';
 import { ERRORS } from 'src/utils/errors';
 import { UserService } from '../users/user.service';
 import 'dotenv/config';
+import { RefreshTokenDto } from './dto/refresh-token.dto';
 
 @Injectable()
 export class AuthService {
@@ -25,14 +26,37 @@ export class AuthService {
   async login(user: any) {
     const payload = { login: user.login, id: user.id };
     return {
-      access_token: this.jwtService.sign(payload, {
+      accessToken: this.jwtService.sign(payload, {
         secret: process.env.JWT_SECRET_KEY,
         expiresIn: process.env.TOKEN_EXPIRE_TIME,
       }),
-      refresh_token: this.jwtService.sign(payload, {
+      refreshToken: this.jwtService.sign(payload, {
         secret: process.env.JWT_SECRET_REFRESH_KEY,
         expiresIn: process.env.TOKEN_REFRESH_EXPIRE_TIME,
       }),
     };
+  }
+  async refresh(refreshTokenDto: RefreshTokenDto) {
+    try {
+      const { exp, ...payload } = await this.jwtService.verifyAsync(
+        refreshTokenDto.refreshToken,
+        {
+          secret: process.env.JWT_SECRET_REFRESH_KEY,
+        },
+      );
+      return {
+        accessToken: this.jwtService.sign(payload, {
+          secret: process.env.JWT_SECRET_KEY,
+          expiresIn: process.env.TOKEN_EXPIRE_TIME,
+        }),
+        refreshToken: this.jwtService.sign(payload, {
+          secret: process.env.JWT_SECRET_REFRESH_KEY,
+          expiresIn: process.env.TOKEN_REFRESH_EXPIRE_TIME,
+        }),
+      };
+    } catch (error) {
+      console.log(error);
+      throw new ForbiddenException(ERRORS.INVALID_REFRESH_TOKEN);
+    }
   }
 }

@@ -12,4 +12,5 @@ export const ERRORS = {
   ALBUM_NOT_IN_FAVORITES: 'album not in favorites',
   WRONG_LOGIN: 'wrong login',
   WRONG_PASSWORD: 'wrong password',
+  INVALID_REFRESH_TOKEN: 'refresh token is invalid or expired',
 };

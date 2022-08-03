@@ -6,10 +6,11 @@ import {
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
-import { Public } from 'src/decorators/public';
+import { Public } from 'src/decorators/Public';
 import { CreateUserDto } from '../users/dto/create-user.dto';
 import { UserService } from '../users/user.service';
 import { AuthService } from './auth.service';
+import { RefreshTokenDto } from './dto/refresh-token.dto';
 import { LocalAuthGuard } from './guards/local-auth.guard';
 
 @Controller('auth')
@@ -33,7 +34,7 @@ export class AuthController {
   }
   @Public()
   @Post('refresh')
-  async refresh(@Body() refreshToken: string) {
-    return;
+  async refresh(@Body() refreshTokenDto: RefreshTokenDto) {
+    return await this.authService.refresh(refreshTokenDto);
   }
 }
