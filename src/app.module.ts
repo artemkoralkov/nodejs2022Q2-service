@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module } from '@nestjs/common';
 import { UserModule } from './modules/users/users.module';
 import { ArtistModule } from './modules/artists/artists.module';
 import { TrackModule } from './modules/tracks/tracks.module';
@@ -10,6 +10,8 @@ import 'dotenv/config';
 import DataSourceOptions from './ormconfig';
 import { APP_GUARD } from '@nestjs/core';
 import { JwtAuthGuard } from './modules/auth/guards/jwt-auth.guard';
+import { LoggerMiddleware } from './middlewares/logger.middleware';
+import { LoggerModule } from './modules/logger/logger.module';
 
 @Module({
   imports: [
@@ -20,6 +22,7 @@ import { JwtAuthGuard } from './modules/auth/guards/jwt-auth.guard';
     FavoritesModule,
     TypeOrmModule.forRoot(DataSourceOptions),
     AuthModule,
+    LoggerModule,
   ],
   providers: [
     {
@@ -28,4 +31,8 @@ import { JwtAuthGuard } from './modules/auth/guards/jwt-auth.guard';
     },
   ],
 })
-export class AppModule {}
+export class AppModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(LoggerMiddleware).forRoutes('*');
+  }
+}
