@@ -9,9 +9,9 @@ export class LoggerMiddleware implements NestMiddleware {
     res.on('finish', () => {
       const { statusCode } = res;
       this.logger.log(
-        `method: ${method} url: ${originalUrl} status code: ${statusCode} 
-        query params: ${JSON.stringify(query)}
-        body: ${JSON.stringify(body)}`,
+        `method: ${method} url: ${originalUrl} status code: ${statusCode} query params: ${JSON.stringify(
+          query,
+        )} body: ${JSON.stringify(body)}`,
       );
     });
 
