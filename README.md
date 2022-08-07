@@ -70,3 +70,12 @@ npm run format
 Press <kbd>F5</kbd> to debug.
 
 For more information, visit: https://code.visualstudio.com/docs/editor/debugging
+
+### Logging
+Logs saves at `logs` folder with name `current-date-logCounter-errors.log` for error logs and `current-date-logCounter.log` for other logs
+
+env variables
+
+`LOGGING_LEVEL` for set logging level
+
+`MAX_LOG_FILE_SIZE`for set max log file size in kB
