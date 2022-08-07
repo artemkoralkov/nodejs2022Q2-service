@@ -1,0 +1,20 @@
+import { ExecutionContext, Injectable } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
+
+@Injectable()
+export class LocalAuthGuard extends AuthGuard('local') {
+  //   handleRequest<TUser = any>(
+  //     err: any,
+  //     user: any,
+  //     info: any,
+  //     context: ExecutionContext,
+  //     status?: any,
+  //   ): TUser {
+  //     console.log(user);
+  //     console.log(info);
+  //     console.log(context);
+  //     console.log(status);
+  //     console.log(err);
+  //     return user;
+  //   }
+}

@@ -74,11 +74,21 @@ class DataBase {
     this.deleteArtistFromFavorites(id);
     const track = this.tracks.find((track) => track.artistId === id);
     if (track) {
-      track.artistId = null;
+      this.tracks = this.tracks.map((track) => {
+        if (track.artistId === id) {
+          track.artistId = null;
+        }
+        return track;
+      });
     }
     const album = this.albums.find((album) => album.artistId === id);
     if (album) {
-      album.artistId = null;
+      this.albums = this.albums.map((album) => {
+        if (album.artistId === id) {
+          album.artistId = null;
+        }
+        return album;
+      });
     }
   }
 
@@ -115,7 +125,12 @@ class DataBase {
     this.deleteAlbumFromFavorites(id);
     const track = this.tracks.find((track) => track.albumId === id);
     if (track) {
-      track.albumId = null;
+      this.tracks = this.tracks.map((track) => {
+        if (track.albumId === id) {
+          track.albumId = null;
+        }
+        return track;
+      });
     }
   }
 
