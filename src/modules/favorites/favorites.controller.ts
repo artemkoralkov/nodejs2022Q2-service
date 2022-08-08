@@ -14,52 +14,52 @@ export class FavoritesController {
   constructor(private readonly favoritesService: FavoritesService) {}
 
   @Get()
-  getFavorites() {
-    return this.favoritesService.getFavorites();
+  async getFavorites() {
+    return await this.favoritesService.getFavorites();
   }
 
   @Post('track/:id')
-  addTrackToTheFavorites(
+  async addTrackToTheFavorites(
     @Param('id', new ParseUUIDPipe({ version: '4' })) id: string,
   ) {
-    return this.favoritesService.addTrackToTheFavorites(id);
+    return await this.favoritesService.addTrackToTheFavorites(id);
   }
 
   @Post('album/:id')
-  addAlbumToTheFavorites(
+  async addAlbumToTheFavorites(
     @Param('id', new ParseUUIDPipe({ version: '4' })) id: string,
   ) {
-    return this.favoritesService.addAlbumToTheFavorites(id);
+    return await this.favoritesService.addAlbumToTheFavorites(id);
   }
 
   @Post('artist/:id')
-  addArtistToTheFavorites(
+  async addArtistToTheFavorites(
     @Param('id', new ParseUUIDPipe({ version: '4' })) id: string,
   ) {
-    return this.favoritesService.addArtistToTheFavorites(id);
+    return await this.favoritesService.addArtistToTheFavorites(id);
   }
 
   @Delete('track/:id')
   @HttpCode(204)
-  deleteTrackFromFavorites(
+  async deleteTrackFromFavorites(
     @Param('id', new ParseUUIDPipe({ version: '4' })) id: string,
   ) {
-    return this.favoritesService.deleteTrackFromFavorites(id);
+    return await this.favoritesService.deleteTrackFromFavorites(id);
   }
 
   @Delete('album/:id')
   @HttpCode(204)
-  deleteAlbumFromFavorites(
+  async deleteAlbumFromFavorites(
     @Param('id', new ParseUUIDPipe({ version: '4' })) id: string,
   ) {
-    return this.favoritesService.deleteAlbumFromFavorites(id);
+    return await this.favoritesService.deleteAlbumFromFavorites(id);
   }
 
   @Delete('artist/:id')
   @HttpCode(204)
-  deleteArtistFromFavorites(
+  async deleteArtistFromFavorites(
     @Param('id', new ParseUUIDPipe({ version: '4' })) id: string,
   ) {
-    return this.favoritesService.deleteArtistFromFavorites(id);
+    return await this.favoritesService.deleteArtistFromFavorites(id);
   }
 }
